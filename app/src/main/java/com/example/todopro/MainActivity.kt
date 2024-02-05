@@ -12,14 +12,14 @@ import androidx.appcompat.app.AlertDialog
 
 class MainActivity : AppCompatActivity() {
 
-    lateinit var item : EditText
-    lateinit var add : Button
-    lateinit var listView : ListView
+    lateinit var item: EditText
+    lateinit var add: Button
+    lateinit var listView: ListView
 
     var itemList = ArrayList<String>()
 
     var fileHelper = FileHelper()
-
+    lateinit var arrayAdapter: ArrayAdapter<String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,42 +31,49 @@ class MainActivity : AppCompatActivity() {
 
         itemList = fileHelper.readData(this)
 
-        var arrayAdapter = ArrayAdapter(this,android.R.layout.simple_list_item_1,android.R.id.text1,itemList)
+        arrayAdapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, android.R.id.text1, itemList)
 
         listView.adapter = arrayAdapter
 
-        add.setOnClickListener{
+        add.setOnClickListener {
 
-            var itemName : String = item.text.toString()
+            val itemName: String = item.text.toString()
             itemList.add(itemName)
             item.setText("")
-            fileHelper.writeData(itemList,applicationContext)
+            fileHelper.writeData(itemList, applicationContext)
             arrayAdapter.notifyDataSetChanged()
 
         }
 
-        listView.setOnItemClickListener { adapterView, view, position, l ->
+        listView.setOnItemClickListener { _, _, position, _ ->
+            showEditDeleteDialog(position)
+        }
+    }
 
-            var alert = AlertDialog.Builder(this)
-            alert.setTitle("Delete")
-            alert.setMessage("Are you sure you want to delete this item from the list?")
-            alert.setCancelable(false)
-            alert.setNegativeButton("No", DialogInterface.OnClickListener { dialogInterface, i ->
+    private fun showEditDeleteDialog(position: Int) {
+        val dialogBuilder = AlertDialog.Builder(this)
+        dialogBuilder.setTitle("Edit or Delete")
+        val editText = EditText(this)
+        editText.setText(itemList[position])
+        dialogBuilder.setView(editText)
 
-                dialogInterface.cancel()
-
-            })
-            alert.setPositiveButton("Yes", DialogInterface.OnClickListener { Interface, i ->
-
-                itemList.removeAt(position)
-                arrayAdapter.notifyDataSetChanged()
-                fileHelper.writeData(itemList,applicationContext)
-
-            })
-
-            alert.create().show()
-
+        dialogBuilder.setPositiveButton("Edit") { _, _ ->
+            val newItemName = editText.text.toString()
+            itemList[position] = newItemName
+            fileHelper.writeData(itemList, applicationContext)
+            arrayAdapter.notifyDataSetChanged()
         }
 
+        dialogBuilder.setNegativeButton("Delete") { _, _ ->
+            itemList.removeAt(position)
+            fileHelper.writeData(itemList, applicationContext)
+            arrayAdapter.notifyDataSetChanged()
+        }
+
+        dialogBuilder.setNeutralButton("Cancel") { dialog, _ ->
+            dialog.dismiss()
+        }
+
+        dialogBuilder.show()
     }
 }
