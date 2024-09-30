@@ -1,76 +1,97 @@
 package com.example.todopro
 
-import android.content.DialogInterface
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.AbsListView
-import android.widget.ArrayAdapter
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ListView
+import android.text.TextUtils
+import android.view.View
+import android.widget.*
+import android.widget.PopupMenu
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), TodoAdapter.OnItemClickListener {
 
-    lateinit var item: EditText
-    lateinit var add: Button
-    lateinit var listView: ListView
-
-    var itemList = ArrayList<String>()
-
-    var fileHelper = FileHelper()
-    lateinit var arrayAdapter: ArrayAdapter<String>
+    private lateinit var todoViewModel: TodoViewModel
+    private lateinit var adapter: TodoAdapter
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var addButton: Button
+    private lateinit var editText: EditText
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        editText = findViewById(R.id.editText)
+        addButton = findViewById(R.id.button)
 
-        item = findViewById(R.id.editText)
-        add = findViewById(R.id.button)
-        listView = findViewById(R.id.list)
+        recyclerView = findViewById(R.id.list)
+        adapter = TodoAdapter(this, this)
+        recyclerView.adapter = adapter
+        recyclerView.layoutManager = LinearLayoutManager(this)
 
-        itemList = fileHelper.readData(this)
+        todoViewModel = ViewModelProvider(this).get(TodoViewModel::class.java)
+        todoViewModel.allTodos.observe(this, Observer { todos ->
+            todos?.let {
+                adapter.setTodos(it)
+            }
+        })
 
-        arrayAdapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, android.R.id.text1, itemList)
-
-        listView.adapter = arrayAdapter
-
-        add.setOnClickListener {
-
-            val itemName: String = item.text.toString()
-            itemList.add(itemName)
-            item.setText("")
-            fileHelper.writeData(itemList, applicationContext)
-            arrayAdapter.notifyDataSetChanged()
-
-        }
-
-        listView.setOnItemClickListener { _, _, position, _ ->
-            showEditDeleteDialog(position)
+        addButton.setOnClickListener {
+            val task = editText.text.toString()
+            if (!TextUtils.isEmpty(task)) {
+                val todo = Todo(task = task)
+                todoViewModel.insert(todo)
+                editText.setText("")
+            } else {
+                Toast.makeText(this, "Please enter a task", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
-    private fun showEditDeleteDialog(position: Int) {
+    override fun onItemClick(todo: Todo) {
+        // Optionally handle item click
+    }
+
+    override fun onOptionsClick(todo: Todo, position: Int, view: View) {
+        val popup = PopupMenu(this, view)
+        popup.inflate(R.menu.item_menu)
+        popup.setOnMenuItemClickListener { item ->
+            when (item.itemId) {
+                R.id.menu_edit -> {
+                    showEditDialog(todo)
+                    true
+                }
+                R.id.menu_delete -> {
+                    todoViewModel.delete(todo)
+                    true
+                }
+                else -> false
+            }
+        }
+        popup.show()
+    }
+
+    private fun showEditDialog(todo: Todo) {
         val dialogBuilder = AlertDialog.Builder(this)
-        dialogBuilder.setTitle("Edit or Delete")
+        dialogBuilder.setTitle("Edit Task")
         val editText = EditText(this)
-        editText.setText(itemList[position])
+        editText.setText(todo.task)
         dialogBuilder.setView(editText)
 
-        dialogBuilder.setPositiveButton("Edit") { _, _ ->
-            val newItemName = editText.text.toString()
-            itemList[position] = newItemName
-            fileHelper.writeData(itemList, applicationContext)
-            arrayAdapter.notifyDataSetChanged()
+        dialogBuilder.setPositiveButton("Save") { _, _ ->
+            val newTask = editText.text.toString()
+            if (!TextUtils.isEmpty(newTask)) {
+                todo.task = newTask
+                todoViewModel.update(todo)
+            } else {
+                Toast.makeText(this, "Task cannot be empty", Toast.LENGTH_SHORT).show()
+            }
         }
 
-        dialogBuilder.setNegativeButton("Delete") { _, _ ->
-            itemList.removeAt(position)
-            fileHelper.writeData(itemList, applicationContext)
-            arrayAdapter.notifyDataSetChanged()
-        }
-
-        dialogBuilder.setNeutralButton("Cancel") { dialog, _ ->
+        dialogBuilder.setNegativeButton("Cancel") { dialog, _ ->
             dialog.dismiss()
         }
 
