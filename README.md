@@ -69,7 +69,7 @@ git clone https://github.com/mara557/todopro.git
 
 ## Screenshots
 
-(Include screenshots of the app to showcase the UI and features.)
+(COMING SOON)
 
 ## Dependencies
 
@@ -78,30 +78,6 @@ git clone https://github.com/mara557/todopro.git
 - **LiveData and ViewModel**: For lifecycle-aware data handling.
 - **RecyclerView**: For displaying the list of tasks.
 
-## Contributing
-
-Contributions are welcome! If you'd like to contribute, please follow these steps:
-
-1. Fork the repository.
-2. Create a new branch:
-
-    ```bash
-    git checkout -b feature/YourFeature
-    ```
-
-3. Make your changes and commit:
-
-    ```bash
-    git commit -m "Add your message"
-    ```
-
-4. Push to your forked repository:
-
-    ```bash
-    git push origin feature/YourFeature
-    ```
-
-5. Create a Pull Request.
 
 ## License
 
