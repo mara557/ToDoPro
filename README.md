@@ -48,7 +48,7 @@ ToDoPro is a lightweight Android application designed to help you manage your ta
 #### Clone the Repository:
 
 ```bash
-git clone https://github.com/yourusername/todopro.git
+git clone https://github.com/mara557/todopro.git
 ```
 
 #### Open in Android Studio:
