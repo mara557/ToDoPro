@@ -1,6 +1,0 @@
-<resources>
-    <string name="app_name">TodoPro</string>
-    <string name="options">Options</string>
-    <string name="edit">Edit</string>
-    <string name="delete">Delete</string>
-</resources>
