@@ -36,20 +36,7 @@ app
 │       │   └── TodoViewModelFactory.kt
 │       ├── MainActivity.kt
 │       └── FileHelper.kt
-└── res
-    ├── drawable
-    ├── layout
-    │   ├── activity_main.xml
-    │   ├── dialog_add_task.xml
-    │   └── item_todo.xml
-    ├── menu
-    │   └── item_menu.xml
-    ├── mipmap
-    ├── values
-    │   ├── colors.xml
-    │   ├── strings.xml
-    │   └── themes.xml
-    └── xml
+└── ...
 ```
 
 ## Dependencies
