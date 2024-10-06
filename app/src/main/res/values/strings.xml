@@ -1,0 +1,38 @@
+<!-- app/src/main/res/values/strings.xml -->
+<resources>
+    <string name="app_name">ToDoPro</string>
+
+    <!-- Categories for Spinners -->
+    <string-array name="categories">
+        <item>Work</item>
+        <item>Personal</item>
+        <item>Home</item>
+        <item>Fitness</item>
+        <item>Shopping</item>
+        <item>General</item>
+    </string-array>
+
+    <string-array name="categories_with_all">
+        <item>All</item>
+        <item>Work</item>
+        <item>Personal</item>
+        <item>Home</item>
+        <item>Fitness</item>
+        <item>Shopping</item>
+        <item>General</item>
+    </string-array>
+
+    <string name="title_add_task">Add New Task</string>
+    <string name="title_edit_task">Edit Task</string>
+    <string name="button_add">Add</string>
+    <string name="button_save">Save</string>
+    <string name="button_cancel">Cancel</string>
+    <string name="toast_task_added">Task Added</string>
+    <string name="toast_task_updated">Task Updated</string>
+    <string name="toast_task_deleted">Task Deleted</string>
+    <string name="toast_simulating_inserts">Simulating Concurrent Inserts</string>
+    <string name="toast_selected_deleted">Selected Tasks Deleted</string>
+    <string name="toast_title_empty">Title cannot be empty</string>
+    <string name="button_select_completion_time">Select Completion Time</string>
+    <string name="text_no_time_selected">No time selected</string>
+</resources>
