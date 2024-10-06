@@ -1,27 +1,90 @@
-ToDoPro - Simple Android Task Manager
 
-ToDoPro is a lightweight Android application designed to help you manage your tasks and to-do lists effortlessly. It provides a clean and intuitive interface for adding, editing, and deleting tasks, making it easy to stay organized and on top of your daily activities.
+# To Do Pro
 
-Key Features:
+**To Do Pro** is a modern task management app built with Android’s latest architecture components. The app supports adding tasks with categories, descriptions, completion dates, and allows for task filtering, selection, and deletion. It also features options for simulating concurrent inserts for testing purposes.
 
-Title and Task Management: Users can create titles for their tasks, adding an extra layer of organization to their to-do lists. Once a title is set, tasks can be added, edited, or deleted within that specific category.
+## Features
 
-User-Friendly Interface: The app features a straightforward interface with an input field for task titles and a list view for displaying and managing tasks. Users can easily add new tasks, edit existing ones, or remove tasks with just a few taps.
+- Add tasks with a title, description, and a category
+- Set a completion time and date for each task
+- Filter tasks by categories
+- Select all or multiple tasks for deletion
+- Simulate concurrent inserts (for testing purposes)
+- Task persistence with Room Database
+- MVVM architecture
+- View binding for efficient UI handling
+- RecyclerView for displaying tasks
+- Material Design for an elegant and responsive UI
 
-Persistent Storage: ToDoPro utilizes local file storage to save and retrieve tasks, ensuring that your to-do lists are always available, even after closing the application.
+## Project Structure
 
-How to Use:
+```bash
+app
+├── manifests
+├── java
+│   └── com.example.todopro
+│       ├── adapter
+│       │   └── TodoAdapter.kt
+│       ├── data
+│       │   ├── Todo.kt
+│       │   ├── TodoDao.kt
+│       │   └── TodoDatabase.kt
+│       ├── repository
+│       │   └── TodoRepository.kt
+│       ├── viewmodel
+│       │   ├── TodoViewModel.kt
+│       │   └── TodoViewModelFactory.kt
+│       ├── MainActivity.kt
+│       └── FileHelper.kt
+└── res
+    ├── drawable
+    ├── layout
+    │   ├── activity_main.xml
+    │   ├── dialog_add_task.xml
+    │   └── item_todo.xml
+    ├── menu
+    │   └── item_menu.xml
+    ├── mipmap
+    ├── values
+    │   ├── colors.xml
+    │   ├── strings.xml
+    │   └── themes.xml
+    └── xml
+```
 
-Title Entry: Start by entering a title for your tasks. Once confirmed, the app switches to task entry mode.
+## Dependencies
 
-Task Management: Add tasks to the selected title, edit their descriptions, or delete them as needed.
+Your project depends on the following libraries:
 
-Intuitive Dialogs: The application uses intuitive dialogs to confirm actions such as editing, deleting, or canceling.
+- Kotlin Standard Library
+- AndroidX Core, AppCompat, RecyclerView
+- Room components (Room Database, Room KTX)
+- ViewModel and LiveData components
+- Coroutines
+- Material Design components
 
-Code Structure:
+The Gradle setup for these dependencies can be found in `build.gradle.kts`.
 
-MainActivity: The main activity handles the user interface and user interactions, including adding, editing, and deleting tasks. It also manages the transition between title and task entry modes.
+## Installation
 
-FileHelper: This class provides methods for reading and writing tasks to a local file, ensuring persistent storage of task data.
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/yourusername/todopro.git
+   cd todopro
+   ```
 
-Feel free to explore the code to understand the implementation details or contribute to enhancing the functionality of ToDoPro. Stay organized and stay productive with ToDoPro!
+2. Open the project in Android Studio.
+
+3. Ensure you have the correct JDK and SDK configurations (target SDK 34).
+
+4. Sync the project with Gradle.
+
+5. Run the project on an emulator or device.
+
+## Screenshots
+
+_Add some screenshots here to showcase the app UI._
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
